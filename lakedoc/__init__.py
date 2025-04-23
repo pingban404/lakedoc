@@ -12,7 +12,7 @@ Able to adapt to most Lake documents.
 **License:** MIT
 """
 
-__version__ = '1.0.4'
+__version__ = '1.0.5'
 __author__ = 'Gu Pingan'
 
 from .converters import LakeBaseConverter

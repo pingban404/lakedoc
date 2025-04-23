@@ -53,8 +53,16 @@ class MarkdownConverter(LakeBaseConverter):
                 return f'\n```{mode}\n{code}\n```\n'
             elif card_type == 'diagram':
                 card_data = string.decode_card_value(el.attrs.get('value', ''))
+                # issue #1 https://github.com/gupingan/lakedoc/issues/1
                 src = card_data.get('url', '')
-                return f'![图片未加载]({src})\n'
+                if src:  # 保留图表图片渲染
+                    return f'![图表]({src})\n'
+
+                # 当 URL 不存在时展示代码块
+                code_type = card_data.get('type', 'plaintext')
+                raw_code_data = card_data.get('code', '')
+                code_data = raw_code_data.replace("\\n", "<br/>")
+                return f'\n```{code_type}\n{code_data}\n```\n'
             elif card_type == 'math':
                 card_data = string.decode_card_value(el.attrs.get('value', ''))
                 code = card_data.get('code', '')
